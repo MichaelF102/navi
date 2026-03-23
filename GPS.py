@@ -662,14 +662,14 @@ class MultimodalGraphBuilder:
                                    distance_km=d_km, seg_start=sc, seg_end=dc,
                                    is_transfer=True)
 
-        # ── Cab edges: transit<->transit within 20 km ─────────────────────
+        # ── Cab edges: transit<->transit within 5 km ─────────────────────
         # Skipped entirely in public_transport mode (no cab allowed at all)
         if self.mode != "public_transport":
             all_transit = train_nodes + bus_nodes
             for i, (n_a, a_a) in enumerate(all_transit):
                 for n_b, a_b in all_transit[i+1:]:
                     h = haversine_km(a_a["lat"], a_a["lon"], a_b["lat"], a_b["lon"])
-                    if h > 20.0:
+                    if h > 5.0:
                         continue
                     d_km, cab_t = self._cab_dist_and_time(
                         a_a["lat"], a_a["lon"], a_b["lat"], a_b["lon"])

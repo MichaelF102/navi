@@ -373,8 +373,15 @@ def render_map(steps, start_coords, end_coords, G_road, data) -> io.BytesIO:
         "car":      "#ffd700",
     }
 
+    try:
+        # osmnx >= 2.0
+        G_sub = ox.truncate.truncate_graph_bbox(G_road, bbox=(max_lat, min_lat, max_lon, min_lon))
+    except TypeError:
+        # osmnx < 2.0
+        G_sub = ox.truncate.truncate_graph_bbox(G_road, max_lat, min_lat, max_lon, min_lon)
+
     fig, ax = ox.plot_graph(
-        G_road, show=False, close=False,
+        G_sub, show=False, close=False,
         node_size=0, edge_color="#3a3a5c",
         edge_linewidth=0.4, bgcolor="#0a1628",
         figsize=(12, 12),

@@ -330,7 +330,28 @@ def show_route_popup(start_coords, end_coords, mode_choice):
         legs = group_into_legs(steps)
         total_dist = sum(s["distance_km"] for s in steps)
 
-        fig, ax = ox.plot_graph(data.G_road, show=False, close=False, node_size=0, edge_color="#3a3a5c", bgcolor="#0a1628")
+        all_lats, all_lons = [], []
+        for s in steps:
+            if s.get("seg_start"):
+                all_lats.append(s["seg_start"][0])
+                all_lons.append(s["seg_start"][1])
+            if s.get("seg_end"):
+                all_lats.append(s["seg_end"][0])
+                all_lons.append(s["seg_end"][1])
+        if not all_lats:
+            all_lats = [start_coords[0], end_coords[0]]
+            all_lons = [start_coords[1], end_coords[1]]
+
+        PAD = 0.02
+        max_lat, min_lat = max(all_lats) + PAD, min(all_lats) - PAD
+        max_lon, min_lon = max(all_lons) + PAD, min(all_lons) - PAD
+
+        try:
+            G_sub = ox.truncate.truncate_graph_bbox(data.G_road, bbox=(max_lat, min_lat, max_lon, min_lon))
+        except TypeError:
+            G_sub = ox.truncate.truncate_graph_bbox(data.G_road, max_lat, min_lat, max_lon, min_lon)
+
+        fig, ax = ox.plot_graph(G_sub, show=False, close=False, node_size=0, edge_color="#3a3a5c", bgcolor="#0a1628")
         for s in steps:
             if s.get("seg_start") and s.get("seg_end"):
                 ax.plot([s["seg_start"][1], s["seg_end"][1]], [s["seg_start"][0], s["seg_end"][0]], 

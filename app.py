@@ -22,7 +22,6 @@ import osmnx as ox
 from GPS import (
     MumbaiData, Router, normalize,
     WALK_MIN_PER_KM, BUS_MIN_PER_KM, CAR_MIN_PER_KM,
-    MODE_COLORS,
 )
 
 # ──────────────────────────────────────────────────────────────────────────────

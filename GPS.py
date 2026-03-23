@@ -64,6 +64,13 @@ WALK_ONLY_MODES     = {"public_transport"}  # modes that forbid cab access edges
 # Lines that are ONE-WAY (ascending sequence only — no reverse edges)
 DIRECTIONAL_LINES = {"Yellow Line (Line 2A)", "Red Line (Line 7)"}
 
+SYSTEM_TO_MODE = {
+    "Mumbai Local Train": "train",
+    "Mumbai Metro": "metro",
+    "Navi Mumbai Metro": "metro",
+    "Mumbai Monorail": "monorail"
+}
+
 # ──────────────────────────────────────────────────────────────────────────────
 # UTILITY
 # ──────────────────────────────────────────────────────────────────────────────
